@@ -1,0 +1,3 @@
+probabilistic_cisi_umbrall, vectorial_cisi_umbrall = 4.845881908117159, 0.0431232508
+probabilistic_cranfield_umbrall, vectorial_cranfield_umbrall = 11.942422624849623, 0.0665435744
+probabilistic_lisa_umbrall, vectorial_lisa_umbrall = 24.46461382909272, 0.0511557004

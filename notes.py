@@ -1,0 +1,7 @@
+# plt.plot(P_list, label='P')
+# plt.plot(R_list, label='R')
+# plt.plot(medida_F_recobrado_list, label='F beta=0.5')
+# plt.plot(medida_F_precision_list, label='F beta=1.5')
+# plt.plot(F1_list, label='F1 beta=1')
+# plt.legend()
+# plt.show()
