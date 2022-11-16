@@ -1,6 +1,6 @@
 # Sistema de Recuperación de Información
 
-## Autore
+## Autor
 
 | **Nombre y Apellidos** |            **Correo**            | **Grupo** |
 | :-----------------------: | :------------------------------: | :-------: |
