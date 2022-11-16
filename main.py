@@ -325,7 +325,7 @@ SYSTEMS OR ON IN-HOUSE SYSTEMS. CHEMISTRY, CHEMICAL, PATENTS.'''
 elif option == 2:
     st.subheader('Escriba la consulta booleana deseada similar al ejemplo')
     st.write('Ejemplo = presented AND ( problems OR data )')
-    st.write('Si usa más de 4 términos sin contar los operadores booleanos AND, OR, el procesamiento puede tomar mucho tiempo')
+    st.write('Si usa más de 4 términos sin contar los operadores booleanos NOT, AND, OR, el procesamiento puede tomar mucho tiempo')
     
     query = st.text_input(' ', ' ')
 
