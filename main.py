@@ -485,33 +485,3 @@ else:
     st.header('Información de la Aplicación')
     st.write('Sistema de Recuperación de Información v2.1')
     st.write('Copyright © 2022: Eziel Ramos')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
