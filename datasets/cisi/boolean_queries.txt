@@ -1,0 +1,30 @@
+presented AND ( problems OR data )
+books AND (resulting OR NOT relation)
+(describe OR retrieval ) AND NOT paper
+based AND discuss AND science
+( method AND provide) AND work
+(service OR need) AND (indexing OR general)
+(information AND libraries AND system) OR (NOT information AND libraries AND system)
+NOT ( information OR germany )
+germany
+NOT germany
+information
+NOT information
+libraries
+information OR germany
+information OR NOT germany
+NOT information OR germany
+NOT information OR NOT germany
+information AND germany
+information AND NOT germany
+NOT information AND germany
+NOT information AND NOT germany
+information OR libraries
+information OR libraries OR system
+information OR libraries OR system OR develop
+information OR ( libraries AND system ) OR develop
+information AND libraries
+information AND libraries AND system
+information AND libraries AND system AND develop
+information AND libraries AND system AND develop AND research
+information AND libraries AND system AND develop AND research AND studies
