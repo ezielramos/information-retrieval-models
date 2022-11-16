@@ -1,0 +1,1 @@
+general overview olivetti network file system olivetti network file system standardis servic provid file access manag transfer independ file locat specif host system data type compani distribut data process architectur discuss principl design introduc concept virtual file describ architectur function element explain basic facil avail
