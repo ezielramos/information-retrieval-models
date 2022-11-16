@@ -1,0 +1,1 @@
+numer solut navier stoke equat flow circular cylind reynold number steadi dimension flow circular cylind submerg viscous fluid case investig integr numer exact navier stoke equat main result follow steadi flow solut exist reynold number high solut goe smooth solut kirchhoff discontinu flow theori limit flow case flow pattern coeffici pressur drag good agreement experiment data

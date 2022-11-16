@@ -1,0 +1,1 @@
+slip flow heat transfer flat plate assum continuum flow energi equat boundari layer remain valid slip region account temperatur jump rarefi influenc larg mean free path appropri boundari condit solut found temperatur gradient slip region maslen express aero june slip fluid flat plate behavior confirm result small valu knudsen number

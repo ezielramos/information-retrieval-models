@@ -1,0 +1,1 @@
+approach flutter problem real fluid approxim theori airfoil unsteadi motion viscous fluid propos viscous effect account relax kutta condit replac relat deriv experi steadi flow applic limit moder viscous effect stall possibl degre freedom flutter discuss assumpt discuss extrapol domain stall flutter possibl develop theori stall case indic

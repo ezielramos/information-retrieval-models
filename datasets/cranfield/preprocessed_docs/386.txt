@@ -1,0 +1,1 @@
+heat transfer laminar flow annulus porous wall temperatur profil heat transfer rate establish incompress flow annulus channel porous wall constant temperatur determin differ inject rate axial conduct viscous dissip usual neglect inject fluid tacit assum temperatur porous wall

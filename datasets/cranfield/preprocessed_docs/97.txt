@@ -1,0 +1,1 @@
+heat transfer laminar flow rotat plate exact solut heat transfer problem karman exampl laminar flow viscous fluid rotat plate given dimensionless form physic discuss solut explicit given constant temperatur plate viscous dissip includ numer result given prandtl number

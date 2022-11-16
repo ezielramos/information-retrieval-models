@@ -1,0 +1,1 @@
+dimension viscous wake veloc field dimension viscous wake examin boundari layer approxim osoen linear convect term assumpt constant fluid properti transform method yield solut general type initi condit illustr axial veloc distribut wake initi isovel line constant veloc ellipt shape decay axial symmetri demonstr laminar turbul flow consid

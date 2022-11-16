@@ -1,0 +1,1 @@
+shear flow porous coaxial cylind flow concentr porous cylind relat axial motion pressur gradient consid analysi restrict assumpt veloc distribut function radial coordin inject withdraw fluid station assumpt reduc problem solubl system ordinari differenti equat associ heat transfer problem discuss briefli

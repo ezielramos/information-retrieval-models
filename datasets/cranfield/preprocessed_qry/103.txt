@@ -1,0 +1,1 @@
+load deform characterist beam obtain materi inelast uniform temperatur present

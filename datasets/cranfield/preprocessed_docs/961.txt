@@ -1,0 +1,1 @@
+variat principl convect heat author extend variat principl biot case heat transfer forc convect numer result given dimension problem fluid flow parallel wall uniform parabol veloc profil agreement exact solut excel

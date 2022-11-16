@@ -1,0 +1,1 @@
+flow field diffus radial compressor note discuss dimension diffus flow field radial compressor outsid impel wheel assum diffus guid vane arrang circular radius impel wheel radius flow diffus start circl radius veloc compon direct veloc vector circl prescrib thermal state flow prescrib radius disturb present boundari condit flow zero veloc infin fulfil develop spiral flow
