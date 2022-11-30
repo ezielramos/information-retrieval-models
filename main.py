@@ -8,6 +8,7 @@ from sri_evaluation import evaluate_metrics_app
 from vectorial_model import Build_Model
 from boolean_model import Build_Boolean_Model
 from prob_model import Build_BIM
+from inference_network_model import Build_Inference_Network
 from nltk.stem.snowball import SnowballStemmer
 import tables
 import json
@@ -33,7 +34,7 @@ if not os.path.isdir(_path_write):
     os.mkdir(_path_write)
     # # cisi
     _path_read = "./datasets/cisi/CISI.QRY"
-    pp = ProcessData(_path_read)    #.processcorpus(_path_write, 0)
+    pp = ProcessData(_path_read)
     pp.processcorpus(_path_write, 0)
     # dictionary to json
     with open("cisi_query_info.json", "w") as outfile: json.dump(pp.original_docs_index, outfile)
@@ -44,12 +45,13 @@ if not os.path.isfile(_path_write):
     _path_corpus = BASE / "preprocessed_docs"
     _path_query = BASE / "preprocessed_qry" 
 
-    vm = Build_Model(_path_corpus, _path_query)
+    vm = Build_Model(_path_corpus, _path_query, True)
     pm = Build_BIM(vm.data, vm.qry, vm.documents_with_term, vm.index_term)
+    InferenceModel = Build_Inference_Network(pm.data,pm.qry, pm.index_term,vm.tf_table,vm.idf)
 
     tables.make_table(_path_write, vm.Rank_sim, vm.Q)
     tables.make_table('./tables/cisi_BIM.csv', pm.Rank_sim, pm.Q)
-
+    tables.make_table('./tables/cisi_INF_NET.csv', InferenceModel.Rank_sim, pm.Q)
 
 
 _path_write = './datasets/cranfield/preprocessed_docs/'
@@ -77,10 +79,14 @@ if not os.path.isfile(_path_write):
     BASE = Path(".\\datasets\\cranfield")
     _path_corpus = BASE / "preprocessed_docs"
     _path_query = BASE / "preprocessed_qry" 
-    vm = Build_Model(_path_corpus, _path_query)
+    
+    vm = Build_Model(_path_corpus, _path_query, True)
     pm = Build_BIM(vm.data, vm.qry, vm.documents_with_term, vm.index_term)
+    InferenceModel = Build_Inference_Network(pm.data,pm.qry, pm.index_term,vm.tf_table,vm.idf)
+
     tables.make_table(_path_write, vm.Rank_sim, vm.Q)
     tables.make_table('./tables/cranfield_BIM.csv', pm.Rank_sim, pm.Q)
+    tables.make_table('./tables/cranfield_INF_NET.csv', InferenceModel.Rank_sim, pm.Q)
 
 
 
@@ -140,13 +146,16 @@ _path_write = './tables/lisa_VECT.csv'
 if not os.path.isfile(_path_write):
     BASE = Path(".\\datasets\\lisa")
     _path_corpus = BASE / "preprocessed_docs"
-    _path_query = BASE / "preprocessed_qry" 
-    vm = Build_Model(_path_corpus, _path_query)
+    _path_query = BASE / "preprocessed_qry"
+
+    vm = Build_Model(_path_corpus, _path_query,True)
     pm = Build_BIM(vm.data, vm.qry, vm.documents_with_term, vm.index_term)
+    InferenceModel = Build_Inference_Network(pm.data,pm.qry, pm.index_term,vm.tf_table,vm.idf)
+
+
     tables.make_table(_path_write, vm.Rank_sim, vm.Q)
     tables.make_table('./tables/lisa_BIM.csv', pm.Rank_sim, pm.Q)
-
-
+    tables.make_table('./tables/lisa_INF_NET.csv', InferenceModel.Rank_sim, pm.Q)
 
 
 stemmer = SnowballStemmer(language='english')
@@ -225,7 +234,7 @@ option = 0
 status = st.radio('', ('Procesar consultas de la colección de datos',
                         'Realizar consulta booleana sobre la colección de datos',
                         'Realizar nueva consulta sobre la colección de datos', 
-                        'Mostrar evaluacion de estrategias de retroalimentacion',
+                        'Mostrar evaluacion de estrategia de retroalimentacion',
                         'Imprimir evaluacion de los SRI',
                         'Imprimir la información de la aplicación'))
 
@@ -235,7 +244,7 @@ elif status == 'Realizar consulta booleana sobre la colección de datos':
     option = 2
 elif status == 'Realizar nueva consulta sobre la colección de datos':
     option = 3
-elif status == 'Mostrar evaluacion de estrategias de retroalimentacion':
+elif status == 'Mostrar evaluacion de estrategia de retroalimentacion':
     option = 4
 elif status == 'Imprimir evaluacion de los SRI':
     option = 5
@@ -250,9 +259,12 @@ if option == 1:
     st.write(consulta)
     st.write('consulta procesada = inform scienc definit possibl')
     cisi_table_VECT, cisi_table_BIM = './tables/cisi_VECT.csv', './tables/cisi_BIM.csv'
+    cisi_table_INF_NET = './tables/cisi_INF_NET.csv'
 
     Query_Rank_vect = tables.get_table_query(cisi_table_VECT, 2)
     Query_Rank_prob = tables.get_table_query(cisi_table_BIM, 2)
+    Query_Rank_INF_NET = tables.get_table_query(cisi_table_INF_NET, 2)
+
     n = len(Query_Rank_vect)
     
     doc_index_rank = [(Query_Rank_vect[i], i) for i in range(n)]
@@ -267,6 +279,13 @@ if option == 1:
     doc_index_rank.reverse()
     result = doc_index_rank[0:5]
     st.write('Ranking probabilistico')
+    for i in range(5): st.write(f'id documento:{result[i][1]}, similitud:{result[i][0]}')
+
+    doc_index_rank = [(Query_Rank_INF_NET[i], i) for i in range(n)]
+    doc_index_rank.sort()
+    doc_index_rank.reverse()
+    result = doc_index_rank[0:5]
+    st.write('Ranking red de inferencia')
     for i in range(5): st.write(f'id documento:{result[i][1]}, similitud:{result[i][0]}')
 
 
@@ -275,9 +294,11 @@ if option == 1:
     st.write(consulta)
     st.write('consulta procesada = similar law obey construct aeroelast model heat high speed aircraft')
     cranfield_table_VECT, cranfield_table_BIM = './tables/cranfield_VECT.csv', './tables/cranfield_BIM.csv'
+    cranfield_table_INF_NET = './tables/cranfield_INF_NET.csv'
     
     Query_Rank_vect = tables.get_table_query(cranfield_table_VECT, 0)
     Query_Rank_prob = tables.get_table_query(cranfield_table_BIM, 0)
+    Query_Rank_INF_net = tables.get_table_query(cranfield_table_INF_NET, 0)
     n = len(Query_Rank_vect)
     
     doc_index_rank = [(Query_Rank_vect[i], i) for i in range(n)]
@@ -292,6 +313,13 @@ if option == 1:
     doc_index_rank.reverse()
     result = doc_index_rank[0:5]
     st.write('Ranking probabilistico')
+    for i in range(5): st.write(f'id documento:{result[i][1]}, similitud:{result[i][0]}')
+
+    doc_index_rank = [(Query_Rank_INF_net[i], i) for i in range(n)]
+    doc_index_rank.sort()
+    doc_index_rank.reverse()
+    result = doc_index_rank[0:5]
+    st.write('Ranking red de inferencia')
     for i in range(5): st.write(f'id documento:{result[i][1]}, similitud:{result[i][0]}')
 
 
@@ -302,9 +330,11 @@ SYSTEMS OR ON IN-HOUSE SYSTEMS. CHEMISTRY, CHEMICAL, PATENTS.'''
     st.write(consulta)
     st.write('consulta procesada = interest comput document system chemic patent receiv inform public avail system hous system chemistri chemic patent')
     lisa_table_VECT, lisa_table_BIM = './tables/lisa_VECT.csv', './tables/lisa_BIM.csv'
+    lisa_table_INF_NET = './tables/lisa_INF_NET.csv'
     
     Query_Rank_vect = tables.get_table_query(lisa_table_VECT, 2)
     Query_Rank_prob = tables.get_table_query(lisa_table_BIM, 2)
+    Query_rank_inf = tables.get_table_query(lisa_table_INF_NET, 2)
     n = len(Query_Rank_vect)
     
     doc_index_rank = [(Query_Rank_vect[i], i) for i in range(n)]
@@ -320,12 +350,20 @@ SYSTEMS OR ON IN-HOUSE SYSTEMS. CHEMISTRY, CHEMICAL, PATENTS.'''
     result = doc_index_rank[0:5]
     st.write('Ranking probabilistico')
     for i in range(5): st.write(f'id documento:{result[i][1]}, similitud:{result[i][0]}')
+
+    doc_index_rank = [(Query_rank_inf[i], i) for i in range(n)]
+    doc_index_rank.sort()
+    doc_index_rank.reverse()
+    result = doc_index_rank[0:5]
+    st.write('Ranking red de inferencia')
+    for i in range(5): st.write(f'id documento:{result[i][1]}, similitud:{result[i][0]}')
+
     st.success('Terminado exitosamente!')
 
 elif option == 2:
     st.subheader('Escriba la consulta booleana deseada similar al ejemplo')
     st.write('Ejemplo = presented AND ( problems OR data )')
-    st.write('Si usa más de 4 términos sin contar los operadores booleanos NOT, AND, OR, el procesamiento puede tomar mucho tiempo')
+    st.write('Si usa más de 4 términos sin contar los operadores booleanos AND, OR, el procesamiento puede tomar mucho tiempo')
     
     query = st.text_input(' ', ' ')
 
@@ -366,7 +404,6 @@ elif option == 3:
         if len(result) == 0: 
             st.write('Consulta no valida!')
             st.error('Error!')
-
         else:            
             text = result.split()
             query_size = len(text)
@@ -376,6 +413,7 @@ elif option == 3:
             
             vm = Build_Model(_path_corpus, _path_query, False)
             pm = Build_BIM(vm.data, vm.qry, vm.documents_with_term, vm.index_term)
+            InferenceModel = Build_Inference_Network(pm.data,pm.qry, pm.index_term,vm.tf_table,vm.idf)
 
             st.subheader('Documentos recuperados del corpus CISI')            
             ocur = 0
@@ -394,12 +432,20 @@ elif option == 3:
                 st.write('Ranking vectorial')
                 for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
 
-                rank_vect = pm.get_new_query_rank(result)
+                rank_p = pm.get_new_query_rank(result)
 
-                index_rank = [(rank_vect[i], i) for i in range(pm.N)]
+                index_rank = [(rank_p[i], i) for i in range(pm.N)]
                 index_rank.sort()
                 index_rank.reverse()
                 st.write('Ranking probabilistico')
+                for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
+
+                rank_infer = InferenceModel.get_new_query_rank(result)
+
+                index_rank = [(rank_infer[i], i) for i in range(pm.N)]
+                index_rank.sort()
+                index_rank.reverse()
+                st.write('Ranking red de inferencia')
                 for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
 
             ####################################################################################################
@@ -410,6 +456,7 @@ elif option == 3:
             
             vm = Build_Model(_path_corpus, _path_query, False)
             pm = Build_BIM(vm.data, vm.qry, vm.documents_with_term, vm.index_term)
+            InferenceModel = Build_Inference_Network(pm.data,pm.qry, pm.index_term,vm.tf_table,vm.idf)
 
             st.subheader('Documentos recuperados del corpus CRANFIELD')
             ocur = 0
@@ -428,12 +475,20 @@ elif option == 3:
                 st.write('Ranking vectorial')
                 for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
 
-                rank_vect = pm.get_new_query_rank(result)
+                rank_p2 = pm.get_new_query_rank(result)
 
-                index_rank = [(rank_vect[i], i) for i in range(pm.N)]
+                index_rank = [(rank_p2[i], i) for i in range(pm.N)]
                 index_rank.sort()
                 index_rank.reverse()
                 st.write('Ranking probabilistico')
+                for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
+
+                rank_infer = InferenceModel.get_new_query_rank(result)
+
+                index_rank = [(rank_infer[i], i) for i in range(pm.N)]
+                index_rank.sort()
+                index_rank.reverse()
+                st.write('Ranking red de inferencia')
                 for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
 
             ##############################################################################################
@@ -444,6 +499,7 @@ elif option == 3:
             
             vm = Build_Model(_path_corpus, _path_query, False)
             pm = Build_BIM(vm.data, vm.qry, vm.documents_with_term, vm.index_term)
+            InferenceModel = Build_Inference_Network(pm.data,pm.qry, pm.index_term,vm.tf_table,vm.idf)
 
             st.subheader('Documentos recuperados del corpus LISA')
             ocur = 0
@@ -462,15 +518,23 @@ elif option == 3:
                 st.write('Ranking vectorial')
                 for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
 
-                rank_vect = pm.get_new_query_rank(result)
+                rank_p3 = pm.get_new_query_rank(result)
 
-                index_rank = [(rank_vect[i], i) for i in range(pm.N)]
+                index_rank = [(rank_p3[i], i) for i in range(pm.N)]
                 index_rank.sort()
                 index_rank.reverse()
                 st.write('Ranking probabilistico')
                 for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
-                
 
+
+                rank_infer = InferenceModel.get_new_query_rank(result)
+
+                index_rank = [(rank_infer[i], i) for i in range(pm.N)]
+                index_rank.sort()
+                index_rank.reverse()
+                st.write('Ranking red de inferencia')
+                for i in range(5): st.write(f'id documento:{index_rank[i][1]}, similitud:{index_rank[i][0]}')
+                
     st.success('Terminado exitosamente!')
 
 elif option == 4:
@@ -485,3 +549,5 @@ else:
     st.header('Información de la Aplicación')
     st.write('Sistema de Recuperación de Información v2.1')
     st.write('Copyright © 2022: Eziel Ramos')
+
+

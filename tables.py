@@ -18,11 +18,3 @@ def get_table_query(csv_name, col):
     df = pandas.read_csv(csv_name, usecols=col_list)
     return list(df[col])
 
-
-# make_table()
-# ll = get_table_column('countries.csv', 0)
-# q_rank = []
-
-# q_rank.extend(ll)
-
-# print(q_rank)

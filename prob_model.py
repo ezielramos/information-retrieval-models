@@ -74,7 +74,7 @@ class Build_BIM:
                 if len(intersect) == 0: continue
                 sim = 0                
                 for t in intersect:
-                    dft = self.documents_with_term[self.index_term[t]]
+                    dft = self.documents_with_term[self.index_term[t]]  #n_i
                     pt = (self.N + 2*dft)/(3*self.N)    #1/3 + 2dft/3N
                     ut = dft/self.N
                     fract = (pt*(1 - ut))/(ut*(1 - pt))

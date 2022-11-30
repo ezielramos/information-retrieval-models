@@ -33,14 +33,6 @@ class ProcessData:
         self.text_list = None
         self.W = None
         self.original_words = {}
-        # self.text_list = self.text.split('\n.W\n')[1:]
-        # self.W = [t.split('\n.X\n')[0].split('\n.I ')[0] for t in self.text_list]
-
-        # #***************************************
-        # self.text_list = self.text.split('\n.I ')
-        # self.W = [t.split('\n.W')[1][1:].split('\n.X\n')[0] for t in self.text_list]
-        # #***************************************
-
 
         #temporary
         code = "\n********************************************\n"
@@ -52,8 +44,6 @@ class ProcessData:
             self.W = [t.split('\n.W')[1][1:].split('\n.X\n')[0] for t in self.text_list]
 
 
-        # if not is_qry: self.W = [t.split('\n.X\n')[0] for t in self.text_list]
-        # else: self.W = [t.split('\n.I ')[0] for t in self.text_list]
         self.stemmer = SnowballStemmer(language='english')
         
     def clear(self, text):
@@ -100,8 +90,6 @@ class ProcessData:
         text = ' '.join(ll)
         return text
 
-    # def
-
     def processcorpus(self, _path_write, start_index):
         n, j = len(self.W), start_index
         for i in range(n):
@@ -117,92 +105,3 @@ class ProcessData:
                 f.close()
                 j += 1
         return j
-
-
-
-# f = open(_path_read, "r", encoding = "utf-8")
-# text = f.read()
-# f.close()
-
-# PROCESS_STOP_WORDS = ['beyond', 'across', 'cannot', 'wherein', 'thus', 'itself', 'dure', 'around', 'sever', 'name', 'whereaft', 'ever', 
-# 'though', 'such', 'make', 'noth', 'third', 'your', 'your', 'also', 'next', 'abov', 'should', 'three', 'couldn', "shan't", 'under', 
-# 'about', "shouldn't", 'everywher', 'enough', 'full', 'call', 'everyth', 'either', 'part', 'their', 'twelv', 'regard', 'done', 'wherev', 
-# 'along', 'neither', 'beforehand', "should'v", 'therefor', 'befor', "couldn't", 'when', 'into', 'whenev', 'with', 'sinc', 'than', 'their', 
-# 'more', 'noon', 'without', 'anyth', 'becom', 'must', 'five', 'which', 'least', 'seem', 'becom', 'well', 'some', 'needn', 'becaus', 'hereaft', 
-# 'wherea', "isn't", 'side', 'fifti', 'whenc', 'mani', 'alon', 'last', 'then', 'amount', 'perhap', 'various', 'besid', 'latter', 'move', 
-# 'sometim', 'someth', 'whom', 'first', 'nowher', 'might', 'inde', 'amongst', 'they', 'realli', 'serious', 'sixti', "hadn't", 'fifteen', 
-# 'have', 'give', 'show', 'anyon', 'whereupon', 'although', 'shouldn', "wasn't", 'would', "haven't", 'everi', 'meanwhil', 'whether', 'twenti', 
-# 'through', 'front', 'yourselv', 'mine', 'take', 'alreadi', 'ourselv', "you'd", 'themselv', 'afterward', 'hundr', "that'll", 'except', 
-# 'much', 'former', "you'r", "won't", 'down', 'will', 'somewher', 'often', 'within', 'have', "doesn't", 'while', 'therebi', 'besid', 'weren', 
-# 'same', 'bottom', 'keep', 'anywher', 'doesn', "you'v", 'herebi', 'here', 'anyway', 'thenc', 'both', 'didn', 'them', 'himself', 'sometim', 
-# 'from', 'otherwis', 'seem', 'hereupon', 'eight', 'aren', 'moreov', 'seem', 'thereupon', 'nevertheless', 'nobodi', 'been', 'even', 'empti', 
-# 'thereaft', 'onto', 'name', 'thru', 'none', 'somehow', 'four', 'other', 'behind', 'those', 'hadn', 'toward', 'herself', 'among', 'most', 
-# 'still', 'there', 'becom', 'becam', 'seem', "didn't", "you'll", "hasn't", "mightn't", 'back', 'wasn', 'these', 'onli', 'mustn', 'everyon', 
-# 'former', 'myself', 'whoever', "weren't", 'henc', 'alway', 'that', 'where', 'anyhow', 'shan', 'howev', 'pleas', 'someon', 'hasn', 'latter', 
-# 'haven', 'nine', 'eleven', 'made', 'whatev', 'wherebi', 'upon', 'mightn', 'anoth', 'togeth', 'therein', 'were', 'most', 'just', 'yourself', 
-# 'throughout', "aren't", 'forti', 'this', 'rather', 'elsewher', 'after', 'unless', 'never', 'other', 'until', 'further', 'veri', "needn't", 
-# 'quit', 'below', 'against', 'whole', 'herein', 'could', "mustn't", 'almost', 'between', 'whither', 'what', 'toward', 'over', "wouldn't", 
-# 'less', "don't", 'again', 'each', 'whose', 'wouldn']
-
-# text_list = text.split('\n.W\n')[1:]
-
-# stemmer = SnowballStemmer(language='english')
-
-# W = [t.split('\n.X\n')[0] for t in text_list]
-
-# def clear(text):
-#     to_remove = ['.', '-', ',', '(', ')', '[', ']', '{', '}', '"', ':', ';', "'", '\n', '\t',
-#                     '0','1','2','3','4','5','6','7','8','9','  '
-#                     '?','!', '$','-','_','<','>','~','/','|','*','+','%',
-#                     '&','\'','\\','^','@','#','=','`' ]
-
-#     for remv in to_remove:
-#         text = text.replace(remv,' ')
-    
-#     length = len(text)
-#     text = text.replace('  ',' ')
-#     while len(text) < length:
-#         length = len(text)
-#         text = text.replace('  ',' ')
-#     text = text.lower()
-#     if text[0] == ' ': text = text[1:]
-#     return text
-
-# def removeShortWords(text):
-#     ll = text.split(' ')
-#     result = []
-#     for item in ll:
-#         if len(item) > 3: result.append(item)
-#     text = ' '.join(result)
-#     return text
-
-# def remove_stopwords(text):
-#     ll = text.split(' ')
-#     for item in PROCESS_STOP_WORDS:
-#         while ll.__contains__(item): ll.remove(item)
-#     text = ' '.join(ll)
-#     return text
-
-# def stemming(text):
-#     ll = text.split(' ')
-#     _len = len(ll)
-#     for i in range(_len): ll[i] = stemmer.stem(ll[i])
-#     text = ' '.join(ll)
-#     return text
-
-# for i in range(0, 6):
-#     _path_write = "./datasets/cisi/preprocessed_docs/"
-#     _path_write += str(i+1) + '.txt'
-#     f = open(_path_write, "w")
-#     result = clear(W[i])
-#     result = removeShortWords(result)
-#     result = stemming(result)
-#     result = remove_stopwords(result)    
-#     f.write(result)
-#     f.close()
-
-# #cisi
-# _path_read = "./datasets/cisi/cisi.all"
-# pp = ProcessData(_path_read)
-# _path_write = "./datasets/cisi/preprocessed_docs/"
-# pp.processcorpus(_path_write)

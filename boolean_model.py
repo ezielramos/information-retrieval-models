@@ -115,8 +115,7 @@ class Build_Boolean_Model:
         ss2 = [self.stemmer.stem(x) for x in ss]
         self.experssion = ' '.join(ss2)
         if self.experssion.startswith('not '): self.experssion = ' ' + self.experssion
-        # print(self.experssion)
-        # return
+
 
         self.original = None
         self.fnd:str = None
